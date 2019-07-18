@@ -1,0 +1,10 @@
+{
+    "primary": {
+        "value": "16",
+        "desc": "正文大小"
+    },
+    "secondary": {
+        "value": "14",
+        "desc": "次要大小"
+    }
+}

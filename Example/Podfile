@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'ResourceGen_Example' do
+  pod 'ResourceGen', :path => '../', :subspecs => ["Core", "Script"]
+
+  target 'ResourceGen_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

@@ -1,0 +1,18 @@
+PODS:
+  - ResourceGen/Core (0.1.0)
+  - ResourceGen/Script (0.1.0)
+
+DEPENDENCIES:
+  - ResourceGen/Core (from `../`)
+  - ResourceGen/Script (from `../`)
+
+EXTERNAL SOURCES:
+  ResourceGen:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ResourceGen: 89048d8336ca0014c41578509c5536093c99ffb6
+
+PODFILE CHECKSUM: a5d2f0c64ba3a55fd11fa8bc799f4b8ebaa854f2
+
+COCOAPODS: 1.6.2

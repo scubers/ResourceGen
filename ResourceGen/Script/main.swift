@@ -15,7 +15,7 @@ protocol CodeFormatable {
 struct Indent {
     let level: Int
     func getIndent() -> String {
-        return Array(repeating: " ", count: level * 4).joined(separator: "")
+        return Array(repeating: " ", count: level * 2).joined(separator: "")
     }
 }
 
@@ -35,7 +35,7 @@ struct Var: CodeFormatable {
         comment.forEach { (c) in
             code += "\(prefix)/// \(c)\n"
         }
-        code += "\(prefix)\(modifiers.joined(separator: " ")) \(name): \(type) \(valueContent)\n"
+        code += "\(prefix)\(modifiers.joined(separator: " ")) \(name): \(type) \(valueContent)"
         
         return code
     }
@@ -54,14 +54,14 @@ struct NameSpace: CodeFormatable {
         imports.forEach { i in
             code += "\(i)\n"
         }
-        code += "\(prefix)\(modifiers.joined(separator: " ")) \(name) {\n"
+        code += "\(prefix)\(modifiers.joined(separator: " ")) \(name) {"
         vars.forEach { (v) in
             code += v.getCode(by: level + 1)
         }
         nameSpaces.forEach { (n) in
             code += n.getCode(by: level + 1)
         }
-        code += "\n\(prefix)}\n"
+        code += "\n\(prefix)}"
         return code
     }
 }

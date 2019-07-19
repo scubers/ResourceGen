@@ -19,10 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         ResourceControl.mutableBundle = Bundle(path: Bundle.main.path(forResource: "resource", ofType: "bundle")!)!
         ResourceControl.staticBundle = Bundle(path: Bundle.main.path(forResource: "resource", ofType: "bundle")!)!
-        print(_RS.Color.theme)
-        print(_RS.FontSize.primary.system())
-        print(_RS.Image.sub_unvisible!)
-        print(_RS.File.a_json!)
+        print(RS.Color.theme)
+        print(RS.FontSize.primary.system())
+        print(RS.Image.sub_unvisible!)
+        print(RS.File.a_json!)
         return true
     }
 

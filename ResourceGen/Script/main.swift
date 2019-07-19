@@ -193,7 +193,7 @@ struct BundleResources {
 extension BundleResources {
     
     func getCode(type: StyleType) -> String {
-        let name = type == .static ? "_RS" : "_RM"
+        let name = type == .static ? "RS" : "RM"
         var style = NameSpace(imports: ["import Foundation", "import ResourceGen", "import UIKit"],
                               modifiers: ["public struct"],
                               name: name,
@@ -291,7 +291,7 @@ extension BundleResources {
 
 extension BundleResources {
     func getOCCode(type: StyleType) -> String {
-        let name = type == .static ? "_RSObjc" : "_RMObjc"
+        let name = type == .static ? "RSObjc" : "RMObjc"
         var style = NameSpace(imports: ["import Foundation", "import ResourceGen", "import UIKit"],
                               modifiers: ["@objc public class"],
                               name: "\(name): NSObject",

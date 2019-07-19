@@ -19,9 +19,6 @@ public class ResourceControl {
     }
     static var bundleResource: _BundleResources!
  
-    public class Static {}
-    public class Mutable {}
-    
     public static func color(hexString: String) -> UIColor {
         let hexString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)

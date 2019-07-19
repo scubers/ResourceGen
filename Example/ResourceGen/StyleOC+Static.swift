@@ -1,9 +1,9 @@
-// GenMD5=21bd7d310577a0955140b7062c423584
+// GenMD5=600c76a1f966b80235ceed69feff2a2e
 
 import Foundation
 import ResourceGen
 import UIKit
-extension _RSObjc {
+@objc public class _RSObjc: NSObject {
 
     /// primary
     /// 16
@@ -14,6 +14,9 @@ extension _RSObjc {
     /// 14
     /// 次要大小
     @objc public static var font_secondary: Fontable { return Fontable(14.0) }
+
+    /// 主题色
+    @objc public static var color_theme1: UIColor { return ResourceControl.color(hexString: "#282828") }
 
     /// 主题色
     @objc public static var color_theme: UIColor { return ResourceControl.color(hexString: "#282828") }

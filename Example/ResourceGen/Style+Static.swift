@@ -1,11 +1,11 @@
-// GenMD5=21bd7d310577a0955140b7062c423584
+// GenMD5=600c76a1f966b80235ceed69feff2a2e
 
 import Foundation
 import ResourceGen
 import UIKit
-extension ResourceControl.Static {
+public struct _RS {
 
-    public class FontSize {
+    public struct FontSize {
 
         /// primary
         /// 正文大小
@@ -19,14 +19,17 @@ extension ResourceControl.Static {
 
     }
 
-    public class Color {
+    public struct Color {
 
         /// 主题色
         public static var theme: UIColor { return ResourceControl.color(hexString: "#282828") }
 
+        /// 主题色
+        public static var theme1: UIColor { return ResourceControl.color(hexString: "#282828") }
+
     }
 
-    public class Image {
+    public struct Image {
 
         /// ic
         public static var ic: UIImage? { return UIImage(named: "images/ic", in: ResourceControl.staticBundle, compatibleWith: nil)}
@@ -36,7 +39,7 @@ extension ResourceControl.Static {
 
     }
 
-    public class File {
+    public struct File {
 
         /// a.json
         public static var a_json: Data? { return ResourceControl.staticData(by: "files/a.json") }

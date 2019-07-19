@@ -70,13 +70,6 @@ struct NameSpace: CodeFormatable {
 enum StyleType: String {
     case `static`
     case mutable
-    
-    func modifier() -> String {
-        switch self {
-        case .static: return "Static"
-        case .mutable: return "Mutable"
-        }
-    }
 }
 
 enum ResourceType {
@@ -160,7 +153,6 @@ struct BundleResources {
             }
         }
         if mgr.fileExists(atPath: "\(dir)/\(ResourceType.image.fileOrDirName)") {
-            //            images = "\(di
             var subs = mgr.subpaths(atPath: "\(dir)/\(ResourceType.image.fileOrDirName)") ?? []
             var set = [String]()
             subs =
@@ -201,9 +193,10 @@ struct BundleResources {
 extension BundleResources {
     
     func getCode(type: StyleType) -> String {
+        let name = type == .static ? "_RS" : "_RM"
         var style = NameSpace(imports: ["import Foundation", "import ResourceGen", "import UIKit"],
-                              modifiers: ["extension"],
-                              name: "ResourceControl.\(type.modifier())",
+                              modifiers: ["public struct"],
+                              name: name,
             vars: [],
             nameSpaces: [])
         if let code = getSizeCode(type) {
@@ -225,7 +218,7 @@ extension BundleResources {
     func getSizeCode(_ type: StyleType) -> NameSpace? {
         guard let sizes = fontSize else { return nil }
         var sizeSpace = NameSpace(imports: [],
-                                  modifiers: ["public", "class"],
+                                  modifiers: ["public", "struct"],
                                   name: "FontSize", vars: [], nameSpaces: [])
         sizes.forEach { (key, value) in
             var valueContent: String
@@ -243,7 +236,7 @@ extension BundleResources {
     func getColorCode(_ type: StyleType) -> NameSpace? {
         guard let colors = color else { return nil }
         var colorSpace = NameSpace(imports: [],
-                                   modifiers: ["public", "class"],
+                                   modifiers: ["public", "struct"],
                                    name: "Color", vars: [], nameSpaces: [])
         colors.forEach { (key, value) in
             var valueContent: String
@@ -261,7 +254,7 @@ extension BundleResources {
     func getImageCode(_ type: StyleType) -> NameSpace? {
         guard let images = images else { return nil }
         var imageSpace = NameSpace(imports: [],
-                                   modifiers: ["public", "class"],
+                                   modifiers: ["public", "struct"],
                                    name: "Image", vars: [], nameSpaces: [])
         images.forEach { (i) in
             var valueContent: String
@@ -279,7 +272,7 @@ extension BundleResources {
     func getFileCode(_ type: StyleType) -> NameSpace? {
         guard let files = files else { return nil }
         var imageSpace = NameSpace(imports: [],
-                                   modifiers: ["public", "class"],
+                                   modifiers: ["public", "struct"],
                                    name: "File", vars: [], nameSpaces: [])
         files.forEach { (i) in
             var valueContent: String
@@ -300,8 +293,8 @@ extension BundleResources {
     func getOCCode(type: StyleType) -> String {
         let name = type == .static ? "_RSObjc" : "_RMObjc"
         var style = NameSpace(imports: ["import Foundation", "import ResourceGen", "import UIKit"],
-                              modifiers: ["extension"],
-                              name: name,
+                              modifiers: ["@objc public class"],
+                              name: "\(name): NSObject",
             vars: [],
             nameSpaces: [])
         

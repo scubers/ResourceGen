@@ -8,9 +8,6 @@
 
 import Foundation
 
-public typealias _RM = ResourceControl.Mutable
-public typealias _RS = ResourceControl.Static
-
 public class ResourceControl {
     
     public static var staticBundle: Bundle = Bundle.main
@@ -53,7 +50,7 @@ public class ResourceControl {
 public extension ResourceControl {
     public static func mutableFontSize(by key: String) -> CGFloat {
         guard let size = bundleResource.fontSize else { return 0 }
-        return CGFloat((size[key]?.value as NSString?)?.floatValue ?? 0)
+        return CGFloat(Double(size[key]?.value ?? "0") ?? 0)
     }
     public static func mutableColor(by key: String) -> UIColor {
         guard let colors = bundleResource.color, let value = colors[key] else { return .black }
@@ -74,16 +71,10 @@ public extension ResourceControl {
         do {
             return try Data(contentsOf: URL(fileURLWithPath: "\(bundle.bundlePath)/\(path)"))
         } catch {
+            print("Resource Gen Error!! [path: \(path)], content error")
             return nil
         }
     }
-}
-
-@objc public class _RSObjc: NSObject {
-    
-}
-
-@objc public class _RMObjc: NSObject {
 }
 
 @objc public class Fontable: NSObject {

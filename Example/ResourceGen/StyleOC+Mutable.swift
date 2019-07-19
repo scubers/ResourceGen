@@ -1,9 +1,9 @@
-// GenMD5=21bd7d310577a0955140b7062c423584
+// GenMD5=600c76a1f966b80235ceed69feff2a2e
 
 import Foundation
 import ResourceGen
 import UIKit
-extension _RMObjc {
+@objc public class _RMObjc: NSObject {
 
     /// primary
     /// 16
@@ -17,6 +17,9 @@ extension _RMObjc {
 
     /// 主题色
     @objc public static var color_theme: UIColor { return ResourceControl.mutableColor(by: "theme") }
+
+    /// 主题色
+    @objc public static var color_theme1: UIColor { return ResourceControl.mutableColor(by: "theme1") }
 
     /// ic
     @objc public static var image_ic: UIImage? { return UIImage(named: "images/ic", in: ResourceControl.mutableBundle, compatibleWith: nil)}

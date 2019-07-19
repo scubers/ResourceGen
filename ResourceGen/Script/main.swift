@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CommonCrypto
 
 protocol CodeFormatable {
     func getCode(by level: Int) -> String
@@ -99,6 +100,20 @@ extension String {
                 .replacingOccurrences(of: "+", with: "_")
                 .replacingOccurrences(of: ".", with: "_")
     }
+    func getMD5() -> String {
+        let str = cString(using: .utf8)
+        
+        let strLen = CUnsignedInt(lengthOfBytes(using: .utf8))
+        let digestLen = Int(CC_MD5_DIGEST_LENGTH)
+        let result = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: digestLen)
+        CC_MD5(str!, strLen, result)
+        let hash = NSMutableString()
+        for i in 0 ..< digestLen {
+            hash.appendFormat("%02x", result[i])
+        }
+        result.deallocate()
+        return String(format: hash as String)
+    }
 }
 
 struct BundleResources {
@@ -128,13 +143,21 @@ struct BundleResources {
     var fontSize: [String: FontSize]?
     var images: [String]?
     var files: [String]?
+    private(set) var md5: String
     init(dir: String) {
         let mgr = FileManager.default
+        var md5 = ""
         if let data = mgr.contents(atPath: "\(dir)/\(ResourceType.color.fileOrDirName)") {
             color = try! JSONDecoder().decode([String: Colors].self, from: data)
+            if let colorMD5 = String(data: data, encoding: .utf8)?.getMD5() {
+                md5 += colorMD5
+            }
         }
         if let data = mgr.contents(atPath: "\(dir)/\(ResourceType.fontSize.fileOrDirName)") {
             fontSize = try! JSONDecoder().decode([String: FontSize].self, from: data)
+            if let fontMD5 = String(data: data, encoding: .utf8)?.getMD5() {
+                md5 += fontMD5
+            }
         }
         if mgr.fileExists(atPath: "\(dir)/\(ResourceType.image.fileOrDirName)") {
             //            images = "\(di
@@ -157,6 +180,8 @@ struct BundleResources {
                         return true
             }
             images = subs
+            
+            md5 += subs.joined(separator: "").getMD5()
         }
         if mgr.fileExists(atPath: "\(dir)/\(ResourceType.files.fileOrDirName)") {
             files = mgr.subpaths(atPath: "\(dir)/\(ResourceType.files.fileOrDirName)")?.filter({ (path) -> Bool in
@@ -164,8 +189,12 @@ struct BundleResources {
                 mgr.fileExists(atPath: "\(dir)/\(ResourceType.files.fileOrDirName)/\(path)", isDirectory: &flag)
                 return !flag.boolValue
             })
+            if let files = files, files.count > 0 {
+                md5 += files.joined(separator: "").getMD5()
+            }
         }
         
+        self.md5 = md5.getMD5()
     }
 }
 
@@ -397,9 +426,27 @@ let type = StyleType(rawValue: params.get("type") ?? "") ?? .static
 let isObjc = params.conatain("objc")
 
 var code: String = ""
-if isObjc {
-    code = BundleResources(dir: dir).getOCCode(type: type)
-} else {
-    code = BundleResources(dir: dir).getCode(type: type)
+let res = BundleResources(dir: dir)
+
+
+let exists = FileManager.default.fileExists(atPath: output)
+let md5 = res.md5
+
+if exists {
+    // 判断是否需要重写
+    let data = try! Data(contentsOf: URL(fileURLWithPath: output))
+    let content = String(data: data, encoding: .utf8) ?? ""
+    if content.contains(md5) {
+        // 相同，则不写入
+        exit(0)
+    }
 }
+
+if isObjc {
+    code = res.getOCCode(type: type)
+} else {
+    code = res.getCode(type: type)
+}
+code = "// GenMD5=\(md5)\n" + code
+
 try! code.write(to: URL(fileURLWithPath: output), atomically: true, encoding: .utf8)

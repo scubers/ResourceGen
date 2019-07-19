@@ -1,3 +1,4 @@
+// GenMD5=21bd7d310577a0955140b7062c423584
 
 import Foundation
 import ResourceGen

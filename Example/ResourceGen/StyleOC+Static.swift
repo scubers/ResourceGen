@@ -1,18 +1,19 @@
+// GenMD5=21bd7d310577a0955140b7062c423584
 
 import Foundation
 import ResourceGen
 import UIKit
 extension _RSObjc {
 
-    /// secondary
-    /// 14
-    /// 次要大小
-    @objc public static var font_secondary: Fontable { return Fontable(14.0) }
-
     /// primary
     /// 16
     /// 正文大小
     @objc public static var font_primary: Fontable { return Fontable(16.0) }
+
+    /// secondary
+    /// 14
+    /// 次要大小
+    @objc public static var font_secondary: Fontable { return Fontable(14.0) }
 
     /// 主题色
     @objc public static var color_theme: UIColor { return ResourceControl.color(hexString: "#282828") }

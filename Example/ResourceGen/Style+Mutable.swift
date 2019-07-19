@@ -1,3 +1,4 @@
+// GenMD5=21bd7d310577a0955140b7062c423584
 
 import Foundation
 import ResourceGen
@@ -6,15 +7,15 @@ extension ResourceControl.Mutable {
 
     public class FontSize {
 
-        /// primary
-        /// 正文大小
-        /// 16
-        public static var primary: Fontable { return Fontable(ResourceControl.mutableFontSize(by: "primary")) }
-
         /// secondary
         /// 次要大小
         /// 14
         public static var secondary: Fontable { return Fontable(ResourceControl.mutableFontSize(by: "secondary")) }
+
+        /// primary
+        /// 正文大小
+        /// 16
+        public static var primary: Fontable { return Fontable(ResourceControl.mutableFontSize(by: "primary")) }
 
     }
 

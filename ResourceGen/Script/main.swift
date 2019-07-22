@@ -227,7 +227,7 @@ extension BundleResources {
             } else {
                 valueContent = "{ return Fontable(ResourceControl.mutableFontSize(by: \"\(key)\")) }"
             }
-            let fontV = Var(comment: [key, value.desc, value.value], modifiers: ["public", "static", "var"], name: key, type: "Fontable", valueContent: valueContent)
+            let fontV = Var(comment: ["\(key), \(value.value), \(value.desc)"], modifiers: ["public", "static", "var"], name: key, type: "Fontable", valueContent: valueContent)
             sizeSpace.vars.append(fontV)
         }
         return sizeSpace
@@ -245,7 +245,7 @@ extension BundleResources {
             } else {
                 valueContent = "{ return ResourceControl.mutableColor(by: \"\(key)\") }"
             }
-            let colorV = Var(comment: [value.desc], modifiers: ["public", "static", "var"], name: key, type: "UIColor", valueContent: valueContent)
+            let colorV = Var(comment: ["\(key), \(value.value), \(value.desc)"], modifiers: ["public", "static", "var"], name: key, type: "UIColor", valueContent: valueContent)
             colorSpace.vars.append(colorV)
         }
         return colorSpace
@@ -316,7 +316,7 @@ extension BundleResources {
                 } else {
                     valueContent = "{ return Fontable(ResourceControl.mutableFontSize(by: \"\(key)\")) }"
                 }
-                return Var(comment: [key, value.value, value.desc], modifiers: ["@objc", "public", "static", "var"], name: "font_\(key.style_gen_name)", type: "Fontable", valueContent: valueContent)
+                return Var(comment: ["\(key), \(value.value), \(value.desc)"], modifiers: ["@objc", "public", "static", "var"], name: "font_\(key.style_gen_name)", type: "Fontable", valueContent: valueContent)
             })
     }
     
@@ -330,7 +330,7 @@ extension BundleResources {
                 } else {
                     valueContent = "{ return ResourceControl.mutableColor(by: \"\(key)\") }"
                 }
-                return Var(comment: [value.desc], modifiers: ["@objc", "public", "static", "var"], name: "color_\(key.style_gen_name)", type: "UIColor", valueContent: valueContent)
+                return Var(comment: ["\(key), \(value.value), \(value.desc)"], modifiers: ["@objc", "public", "static", "var"], name: "color_\(key.style_gen_name)", type: "UIColor", valueContent: valueContent)
         }
     }
     

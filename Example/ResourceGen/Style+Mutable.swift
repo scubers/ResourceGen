@@ -5,17 +5,13 @@ import ResourceGen
 import UIKit
 public struct RM {
   public struct FontSize {
-    /// primary
-    /// 正文大小
-    /// 16
-    public static var primary: Fontable { return Fontable(ResourceControl.mutableFontSize(by: "primary")) }
-    /// secondary
-    /// 次要大小
-    /// 14
+    /// secondary, 14, 次要大小
     public static var secondary: Fontable { return Fontable(ResourceControl.mutableFontSize(by: "secondary")) }
+    /// primary, 16, 正文大小
+    public static var primary: Fontable { return Fontable(ResourceControl.mutableFontSize(by: "primary")) }
   }
   public struct Color {
-    /// 主题色
+    /// theme, #282828, 主题色
     public static var theme: UIColor { return ResourceControl.mutableColor(by: "theme") }
   }
   public struct Image {

@@ -32,6 +32,7 @@ TODO: Add long description of the pod here.
   
   s.subspec 'Core' do |ss|
     ss.source_files = 'ResourceGen/Classes/**/*'
+    ss.preserve_paths = ['ResourceGen/Script/**/*']
   end
   
   s.subspec 'Script' do |ss|

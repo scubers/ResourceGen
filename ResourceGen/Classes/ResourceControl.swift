@@ -132,15 +132,15 @@ struct _BundleResources {
     var files: String?
     init(dir: String) {
         let mgr = FileManager.default
-        if let data = mgr.contents(atPath: "\(dir)/\(ResourceType.color.fileOrDirName)") {
+        if let data = mgr.contents(atPath: "\(dir)/\(_ResourceType.color.fileOrDirName)") {
             color = try! JSONDecoder().decode([String: Colors].self, from: data)
         }
-        if let data = mgr.contents(atPath: "\(dir)/\(ResourceType.fontSize.fileOrDirName)") {
+        if let data = mgr.contents(atPath: "\(dir)/\(_ResourceType.fontSize.fileOrDirName)") {
             fontSize = try! JSONDecoder().decode([String: FontSize].self, from: data)
         }
-        if mgr.fileExists(atPath: "\(dir)/\(ResourceType.image.fileOrDirName)") {
+        if mgr.fileExists(atPath: "\(dir)/\(_ResourceType.image.fileOrDirName)") {
             //            images = "\(di
-            var subs = mgr.subpaths(atPath: "\(dir)/\(ResourceType.image.fileOrDirName)") ?? []
+            var subs = mgr.subpaths(atPath: "\(dir)/\(_ResourceType.image.fileOrDirName)") ?? []
             var set = [String]()
             subs =
                 subs
@@ -160,8 +160,8 @@ struct _BundleResources {
             }
             images = subs
         }
-        if mgr.fileExists(atPath: "\(dir)/\(ResourceType.files.fileOrDirName)") {
-            files = "\(dir)/\(ResourceType.files.fileOrDirName)"
+        if mgr.fileExists(atPath: "\(dir)/\(_ResourceType.files.fileOrDirName)") {
+            files = "\(dir)/\(_ResourceType.files.fileOrDirName)"
         }
         
     }

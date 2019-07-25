@@ -20,6 +20,8 @@
 		A86E02A222E05A150051FFA0 /* StyleOC+Mutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86E029D22E05A150051FFA0 /* StyleOC+Mutable.swift */; };
 		A86E02A322E05A150051FFA0 /* StyleOC+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86E029E22E05A150051FFA0 /* StyleOC+Static.swift */; };
 		A86E02A422E05A150051FFA0 /* Style+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86E029F22E05A150051FFA0 /* Style+Static.swift */; };
+		A8C6D76D22E98F720036F3DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C6D76C22E98F720036F3DD /* R.generated.swift */; };
+		A8C6D77122E990EA0036F3DD /* TestTT.m in Sources */ = {isa = PBXBuildFile; fileRef = A8C6D77022E990EA0036F3DD /* TestTT.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,10 @@
 		A86E029D22E05A150051FFA0 /* StyleOC+Mutable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StyleOC+Mutable.swift"; sourceTree = "<group>"; };
 		A86E029E22E05A150051FFA0 /* StyleOC+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StyleOC+Static.swift"; sourceTree = "<group>"; };
 		A86E029F22E05A150051FFA0 /* Style+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Style+Static.swift"; sourceTree = "<group>"; };
+		A8C6D76C22E98F720036F3DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
+		A8C6D76E22E990EA0036F3DD /* ResourceGen_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ResourceGen_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		A8C6D76F22E990EA0036F3DD /* TestTT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestTT.h; sourceTree = "<group>"; };
+		A8C6D77022E990EA0036F3DD /* TestTT.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestTT.m; sourceTree = "<group>"; };
 		BBF77D36A752A77F4DBD694F /* Pods-ResourceGen_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ResourceGen_Example.release.xcconfig"; path = "Target Support Files/Pods-ResourceGen_Example/Pods-ResourceGen_Example.release.xcconfig"; sourceTree = "<group>"; };
 		D90B451AFC18CBCBA9AF6819 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +118,7 @@
 		607FACD21AFB9204008FA782 /* Example for ResourceGen */ = {
 			isa = PBXGroup;
 			children = (
+				A8C6D76C22E98F720036F3DD /* R.generated.swift */,
 				A86E029B22E05A150051FFA0 /* resource.bundle */,
 				A86E029C22E05A150051FFA0 /* Style+Mutable.swift */,
 				A86E029F22E05A150051FFA0 /* Style+Static.swift */,
@@ -123,6 +130,9 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				A8C6D76F22E990EA0036F3DD /* TestTT.h */,
+				A8C6D77022E990EA0036F3DD /* TestTT.m */,
+				A8C6D76E22E990EA0036F3DD /* ResourceGen_Example-Bridging-Header.h */,
 			);
 			name = "Example for ResourceGen";
 			path = ResourceGen;
@@ -183,6 +193,7 @@
 			buildPhases = (
 				D0EA8B5086ED44BF6C2D7711 /* [CP] Check Pods Manifest.lock */,
 				A86E029A22E059AA0051FFA0 /* Resource Gen Run */,
+				A8C6D76B22E98EB90036F3DD /* R.swift */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
@@ -228,7 +239,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1030;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -317,7 +328,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "xcrun --sdk macosx /usr/bin/swift \"$SRCROOT/../ResourceGen/Script/main.swift\" --dir=$SRCROOT/ResourceGen/resource.bundle --output=$SRCROOT/ResourceGen/Style+Static.swift --type=static\nxcrun --sdk macosx /usr/bin/swift \"$SRCROOT/../ResourceGen/Script/main.swift\" --dir=$SRCROOT/ResourceGen/resource.bundle --output=$SRCROOT/ResourceGen/StyleOC+Static.swift --type=static --objc\nxcrun --sdk macosx /usr/bin/swift \"$SRCROOT/../ResourceGen/Script/main.swift\" --dir=$SRCROOT/ResourceGen/resource.bundle --output=$SRCROOT/ResourceGen/Style+Mutable.swift --type=mutable\nxcrun --sdk macosx /usr/bin/swift \"$SRCROOT/../ResourceGen/Script/main.swift\" --dir=$SRCROOT/ResourceGen/resource.bundle --output=$SRCROOT/ResourceGen/StyleOC+Mutable.swift --type=mutable --objc\n";
+			shellScript = "xcrun --sdk macosx /usr/bin/swift \"$SRCROOT/../ResourceGen/Script/main.swift\" --dir=$SRCROOT/ResourceGen/resource.bundle --output=$SRCROOT/ResourceGen/Style+Static.swift --type=static --key=resource\nxcrun --sdk macosx /usr/bin/swift \"$SRCROOT/../ResourceGen/Script/main.swift\" --dir=$SRCROOT/ResourceGen/resource.bundle --output=$SRCROOT/ResourceGen/StyleOC+Static.swift --type=static --objc --key=resource\nxcrun --sdk macosx /usr/bin/swift \"$SRCROOT/../ResourceGen/Script/main.swift\" --dir=$SRCROOT/ResourceGen/resource.bundle --output=$SRCROOT/ResourceGen/Style+Mutable.swift --type=mutable --key=resource\nxcrun --sdk macosx /usr/bin/swift \"$SRCROOT/../ResourceGen/Script/main.swift\" --dir=$SRCROOT/ResourceGen/resource.bundle --output=$SRCROOT/ResourceGen/StyleOC+Mutable.swift --type=mutable --objc --key=resource\n";
+		};
+		A8C6D76B22E98EB90036F3DD /* R.swift */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			name = R.swift;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
 		};
 		D0EA8B5086ED44BF6C2D7711 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -350,12 +381,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ResourceGen_Example/Pods-ResourceGen_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/ResourceGen/ResourceGen.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ResourceGen.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,7 +404,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A86E02A222E05A150051FFA0 /* StyleOC+Mutable.swift in Sources */,
+				A8C6D76D22E98F720036F3DD /* R.generated.swift in Sources */,
 				A86E02A122E05A150051FFA0 /* Style+Mutable.swift in Sources */,
+				A8C6D77122E990EA0036F3DD /* TestTT.m in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				A86E02A322E05A150051FFA0 /* StyleOC+Static.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
@@ -521,11 +556,14 @@
 			baseConfigurationReference = 95D0F1EAEC740DE7B682DB0D /* Pods-ResourceGen_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ResourceGen/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ResourceGen/ResourceGen_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -536,11 +574,13 @@
 			baseConfigurationReference = BBF77D36A752A77F4DBD694F /* Pods-ResourceGen_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ResourceGen/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ResourceGen/ResourceGen_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};

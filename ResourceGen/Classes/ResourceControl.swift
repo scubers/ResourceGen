@@ -8,7 +8,58 @@
 
 import Foundation
 
+public protocol BundleFinder {
+    func findBundle(by key: String) -> Bundle
+}
+
 public class ResourceControl {
+    
+    var key: String
+    public init(key: String) {
+        self.key = key
+        sBundle = ResourceControl.staticFinder.findBundle(by: key)
+        mBundle = ResourceControl.mutableFinder.findBundle(by: key)
+        mResource = _BundleResources(dir: mBundle.bundlePath)
+    }
+    
+    public var sBundle: Bundle
+    public var mBundle: Bundle
+    var mResource: _BundleResources
+    
+    public func mFontSize(by key: String) -> CGFloat {
+        guard let size = mResource.fontSize else { return 0 }
+        return CGFloat(Double(size[key]?.value ?? "0") ?? 0)
+    }
+    
+    public func mColor(by key: String) -> UIColor {
+        guard let colors = mResource.color, let value = colors[key] else { return .black }
+        return ResourceControl.color(hexString: value.value)
+    }
+    
+    public func mData(by key: String) -> Data? {
+        return data(by: key, from: mBundle)
+    }
+    
+    public func sData(by key: String) -> Data? {
+        return data(by: key, from: sBundle)
+    }
+    
+    func data(by path: String, from bundle: Bundle) -> Data? {
+        var isDir = ObjCBool(false)
+        FileManager.default.fileExists(atPath: path, isDirectory: &isDir)
+        if isDir.boolValue {
+            return nil
+        }
+        do {
+            return try Data(contentsOf: URL(fileURLWithPath: "\(bundle.bundlePath)/\(path)"))
+        } catch {
+            print("Resource Gen Error!! [path: \(path)], content error")
+            return nil
+        }
+    }
+    
+    public static var staticFinder: BundleFinder!
+    public static var mutableFinder: BundleFinder!
     
     public static var staticBundle: Bundle = Bundle.main
     
@@ -39,7 +90,7 @@ public class ResourceControl {
         let green = CGFloat(g) / 255.0
         let blue  = CGFloat(b) / 255.0
         
-        return UIColor.init(red: red, green: green, blue: blue, alpha: 1)
+        return UIColor(red: red, green: green, blue: blue, alpha: 1)
         
     }
 }

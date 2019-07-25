@@ -137,7 +137,10 @@ struct BundleResources {
     var images: [String]?
     var files: [String]?
     private(set) var md5: String
-    init(dir: String) {
+
+    var key: String
+    init(dir: String, key: String) {
+        self.key = key
         let mgr = FileManager.default
         var md5 = ""
         if let data = mgr.contents(atPath: "\(dir)/\(ResourceType.color.fileOrDirName)") {
@@ -199,6 +202,10 @@ extension BundleResources {
                               name: name,
             vars: [],
             nameSpaces: [])
+        
+        let controlVar = Var(comment: [], modifiers: ["static", "var"], name: "rsControl", type: "ResourceControl", valueContent: "= ResourceControl(key: \"\(key)\")")
+        style.vars.append(controlVar)
+        
         if let code = getSizeCode(type) {
             style.nameSpaces.append(code)
         }
@@ -225,7 +232,7 @@ extension BundleResources {
             if type == .static {
                 valueContent = "{ return Fontable(\(value.getDouble())) }"
             } else {
-                valueContent = "{ return Fontable(ResourceControl.mutableFontSize(by: \"\(key)\")) }"
+                valueContent = "{ return Fontable(rsControl.mFontSize(by: \"\(key)\")) }"
             }
             let fontV = Var(comment: ["\(key), \(value.value), \(value.desc)"], modifiers: ["public", "static", "var"], name: key, type: "Fontable", valueContent: valueContent)
             sizeSpace.vars.append(fontV)
@@ -243,7 +250,7 @@ extension BundleResources {
             if type == .static {
                 valueContent = "{ return ResourceControl.color(hexString: \"\(value.value)\") }"
             } else {
-                valueContent = "{ return ResourceControl.mutableColor(by: \"\(key)\") }"
+                valueContent = "{ return rsControl.mColor(by: \"\(key)\") }"
             }
             let colorV = Var(comment: ["\(key), \(value.value), \(value.desc)"], modifiers: ["public", "static", "var"], name: key, type: "UIColor", valueContent: valueContent)
             colorSpace.vars.append(colorV)
@@ -259,9 +266,9 @@ extension BundleResources {
         images.forEach { (i) in
             var valueContent: String
             if type == .static {
-                valueContent = "{ return UIImage(named: \"images/\(i)\", in: ResourceControl.staticBundle, compatibleWith: nil)}"
+                valueContent = "{ return UIImage(named: \"images/\(i)\", in: rsControl.sBundle, compatibleWith: nil)}"
             } else {
-                valueContent = "{ return UIImage(named: \"images/\(i)\", in: ResourceControl.mutableBundle, compatibleWith: nil)}"
+                valueContent = "{ return UIImage(named: \"images/\(i)\", in: rsControl.mBundle, compatibleWith: nil)}"
             }
             let imageV = Var(comment: [i], modifiers: ["public", "static", "var"], name: i.style_gen_name, type: "UIImage?", valueContent: valueContent)
             imageSpace.vars.append(imageV)
@@ -277,9 +284,9 @@ extension BundleResources {
         files.forEach { (i) in
             var valueContent: String
             if type == .static {
-                valueContent = "{ return ResourceControl.staticData(by: \"files/\(i)\") }"
+                valueContent = "{ return rsControl.sData(by: \"files/\(i)\") }"
             } else {
-                valueContent = "{ return ResourceControl.mutableData(by: \"files/\(i)\") }"
+                valueContent = "{ return rsControl.mData(by: \"files/\(i)\") }"
             }
             let imageV = Var(comment: [i], modifiers: ["public", "static", "var"], name: i.style_gen_name, type: "Data?", valueContent: valueContent)
             imageSpace.vars.append(imageV)
@@ -298,6 +305,9 @@ extension BundleResources {
             vars: [],
             nameSpaces: [])
         
+        let controlVar = Var(comment: [], modifiers: ["static", "var"], name: "rsControl", type: "ResourceControl", valueContent: "= ResourceControl(key: \"\(key)\")")
+        style.vars.append(controlVar)
+        
         style.vars.append(contentsOf: getOCSize(type))
         style.vars.append(contentsOf: getOCColor(type))
         style.vars.append(contentsOf: getOCImageCode(type))
@@ -314,7 +324,7 @@ extension BundleResources {
                 if type == .static {
                     valueContent = "{ return Fontable(\(value.getDouble())) }"
                 } else {
-                    valueContent = "{ return Fontable(ResourceControl.mutableFontSize(by: \"\(key)\")) }"
+                    valueContent = "{ return Fontable(rsControl.mFontSize(by: \"\(key)\")) }"
                 }
                 return Var(comment: ["\(key), \(value.value), \(value.desc)"], modifiers: ["@objc", "public", "static", "var"], name: "font_\(key.style_gen_name)", type: "Fontable", valueContent: valueContent)
             })
@@ -328,7 +338,7 @@ extension BundleResources {
                 if type == .static {
                     valueContent = "{ return ResourceControl.color(hexString: \"\(value.value)\") }"
                 } else {
-                    valueContent = "{ return ResourceControl.mutableColor(by: \"\(key)\") }"
+                    valueContent = "{ return rsControl.mColor(by: \"\(key)\") }"
                 }
                 return Var(comment: ["\(key), \(value.value), \(value.desc)"], modifiers: ["@objc", "public", "static", "var"], name: "color_\(key.style_gen_name)", type: "UIColor", valueContent: valueContent)
         }
@@ -340,9 +350,9 @@ extension BundleResources {
             images.map { (i) -> Var in
                 var valueContent: String
                 if type == .static {
-                    valueContent = "{ return UIImage(named: \"images/\(i)\", in: ResourceControl.staticBundle, compatibleWith: nil)}"
+                    valueContent = "{ return UIImage(named: \"images/\(i)\", in: rsControl.sBundle, compatibleWith: nil)}"
                 } else {
-                    valueContent = "{ return UIImage(named: \"images/\(i)\", in: ResourceControl.mutableBundle, compatibleWith: nil)}"
+                    valueContent = "{ return UIImage(named: \"images/\(i)\", in: rsControl.mBundle, compatibleWith: nil)}"
                 }
                 return Var(comment: [i], modifiers: ["@objc", "public", "static", "var"], name: "image_\(i.style_gen_name)", type: "UIImage?", valueContent: valueContent)
             }
@@ -355,9 +365,9 @@ extension BundleResources {
             files.map { (i) -> Var in
             var valueContent: String
             if type == .static {
-                valueContent = "{ return ResourceControl.staticData(by: \"files/\(i)\") }"
+                valueContent = "{ return rsControl.sData(by: \"files/\(i)\") }"
             } else {
-                valueContent = "{ return ResourceControl.mutableData(by: \"files/\(i)\") }"
+                valueContent = "{ return rsControl.mData(by: \"files/\(i)\") }"
             }
 
             return Var(comment: [i], modifiers: ["@objc", "public", "static", "var"], name: "file_\(i.style_gen_name)", type: "Data?", valueContent: valueContent)
@@ -402,6 +412,7 @@ if params.conatain("help") {
     --output=/xx/yy/zz: 导出文件
     --type=[static,mutable]: 导出的资源文件类型
     --objc: 是否导出objc类型
+    --bundleKey: 查找bundle的关键字
 """)
     exit(0)
 }
@@ -415,11 +426,16 @@ guard let output = params.get("output") else {
     exit(-1)
 }
 
+guard let bundleKey = params.get("bundleKey") else {
+    print("请输入 --bundleKey=xxx")
+    exit(-1)
+}
+
 let type = StyleType(rawValue: params.get("type") ?? "") ?? .static
 let isObjc = params.conatain("objc")
 
 var code: String = ""
-let res = BundleResources(dir: dir)
+let res = BundleResources(dir: dir, key: bundleKey)
 
 
 let exists = FileManager.default.fileExists(atPath: output)

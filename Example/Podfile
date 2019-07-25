@@ -2,6 +2,7 @@ use_frameworks!
 
 target 'ResourceGen_Example' do
   pod 'ResourceGen', :path => '../', :subspecs => ["Core", "Script"]
+  pod 'R.swift'
 
   target 'ResourceGen_Tests' do
     inherit! :search_paths

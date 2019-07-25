@@ -9,6 +9,18 @@
 import UIKit
 import ResourceGen
 
+class StaticFinder: BundleFinder {
+    func findBundle(by key: String) -> Bundle {
+        return Bundle(path: Bundle.main.path(forResource: "resource", ofType: "bundle")!)!
+    }
+}
+
+class MutableFinder: BundleFinder {
+    func findBundle(by key: String) -> Bundle {
+        return Bundle(path: Bundle.main.path(forResource: "resource", ofType: "bundle")!)!
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,8 +29,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        ResourceControl.mutableBundle = Bundle(path: Bundle.main.path(forResource: "resource", ofType: "bundle")!)!
-        ResourceControl.staticBundle = Bundle(path: Bundle.main.path(forResource: "resource", ofType: "bundle")!)!
+//        ResourceControl.mutableBundle = Bundle(path: Bundle.main.path(forResource: "resource", ofType: "bundle")!)!
+//        ResourceControl.staticBundle = Bundle(path: Bundle.main.path(forResource: "resource", ofType: "bundle")!)!
+        ResourceControl.staticFinder = StaticFinder()
+        ResourceControl.mutableFinder = MutableFinder()
         print(RS.Color.theme)
         print(RS.FontSize.primary.system())
         print(RS.Image.sub_unvisible!)

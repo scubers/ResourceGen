@@ -14,6 +14,9 @@ public protocol BundleFinder {
 
 public class ResourceControl {
     
+    public static var staticFinder: BundleFinder!
+    public static var mutableFinder: BundleFinder!
+    
     var key: String
     public init(key: String) {
         self.key = key
@@ -58,18 +61,6 @@ public class ResourceControl {
         }
     }
     
-    public static var staticFinder: BundleFinder!
-    public static var mutableFinder: BundleFinder!
-    
-    public static var staticBundle: Bundle = Bundle.main
-    
-    public static var mutableBundle: Bundle = Bundle.main {
-        didSet {
-            bundleResource = _BundleResources(dir: ResourceControl.mutableBundle.bundlePath)
-        }
-    }
-    static var bundleResource: _BundleResources!
- 
     public static func color(hexString: String) -> UIColor {
         let hexString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
@@ -92,36 +83,6 @@ public class ResourceControl {
         
         return UIColor(red: red, green: green, blue: blue, alpha: 1)
         
-    }
-}
-
-public extension ResourceControl {
-    public static func mutableFontSize(by key: String) -> CGFloat {
-        guard let size = bundleResource.fontSize else { return 0 }
-        return CGFloat(Double(size[key]?.value ?? "0") ?? 0)
-    }
-    public static func mutableColor(by key: String) -> UIColor {
-        guard let colors = bundleResource.color, let value = colors[key] else { return .black }
-        return color(hexString: value.value)
-    }
-    public static func staticData(by path: String) -> Data? {
-        return data(by: path, from: staticBundle)
-    }
-    public static func mutableData(by path: String) -> Data? {
-        return data(by: path, from: mutableBundle)
-    }
-    static func data(by path: String, from bundle: Bundle) -> Data? {
-        var isDir = ObjCBool(false)
-        FileManager.default.fileExists(atPath: path, isDirectory: &isDir)
-        if isDir.boolValue {
-            return nil
-        }
-        do {
-            return try Data(contentsOf: URL(fileURLWithPath: "\(bundle.bundlePath)/\(path)"))
-        } catch {
-            print("Resource Gen Error!! [path: \(path)], content error")
-            return nil
-        }
     }
 }
 

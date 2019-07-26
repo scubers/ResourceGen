@@ -138,9 +138,11 @@ struct BundleResources {
     var files: [String]?
     private(set) var md5: String
 
-    var key: String
-    init(dir: String, key: String) {
-        self.key = key
+    var bundleKey: String
+    var objcKey: String
+    init(dir: String, bundleKey: String, objcKey: String = "") {
+        self.bundleKey = bundleKey
+        self.objcKey = objcKey
         let mgr = FileManager.default
         var md5 = ""
         if let data = mgr.contents(atPath: "\(dir)/\(ResourceType.color.fileOrDirName)") {
@@ -203,7 +205,7 @@ extension BundleResources {
             vars: [],
             nameSpaces: [])
         
-        let controlVar = Var(comment: [], modifiers: ["static", "var"], name: "rsControl", type: "ResourceControl", valueContent: "= ResourceControl(key: \"\(key)\")")
+        let controlVar = Var(comment: [], modifiers: ["static", "var"], name: "rsControl", type: "ResourceControl", valueContent: "= ResourceControl(key: \"\(bundleKey)\")")
         style.vars.append(controlVar)
         
         if let code = getSizeCode(type) {
@@ -298,14 +300,14 @@ extension BundleResources {
 
 extension BundleResources {
     func getOCCode(type: StyleType) -> String {
-        let name = type == .static ? "RSObjc" : "RMObjc"
+        let name = (type == .static ? "RS" : "RM") + "_\(objcKey)"
         var style = NameSpace(imports: ["import Foundation", "import ResourceGen", "import UIKit"],
                               modifiers: ["@objc public class"],
                               name: "\(name): NSObject",
             vars: [],
             nameSpaces: [])
         
-        let controlVar = Var(comment: [], modifiers: ["static", "var"], name: "rsControl", type: "ResourceControl", valueContent: "= ResourceControl(key: \"\(key)\")")
+        let controlVar = Var(comment: [], modifiers: ["static", "var"], name: "rsControl", type: "ResourceControl", valueContent: "= ResourceControl(key: \"\(bundleKey)\")")
         style.vars.append(controlVar)
         
         style.vars.append(contentsOf: getOCSize(type))
@@ -431,11 +433,19 @@ guard let bundleKey = params.get("bundleKey") else {
     exit(-1)
 }
 
-let type = StyleType(rawValue: params.get("type") ?? "") ?? .static
 let isObjc = params.conatain("objc")
+var objcKey = ""
+if isObjc {
+    guard let key = params.get("objcKey") else {
+        exit(-1)
+    }
+    objcKey = key
+}
+
+let type = StyleType(rawValue: params.get("type") ?? "") ?? .static
 
 var code: String = ""
-let res = BundleResources(dir: dir, key: bundleKey)
+let res = BundleResources(dir: dir, bundleKey: bundleKey, objcKey: objcKey)
 
 
 let exists = FileManager.default.fileExists(atPath: output)

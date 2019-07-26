@@ -3,7 +3,7 @@
 import Foundation
 import ResourceGen
 import UIKit
-@objc public class RMObjc: NSObject {
+@objc public class RM_OC: NSObject {
   static var rsControl: ResourceControl = ResourceControl(key: "resource")
   /// secondary, 14, 次要大小
   @objc public static var font_secondary: Fontable { return Fontable(rsControl.mFontSize(by: "secondary")) }

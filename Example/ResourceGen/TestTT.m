@@ -14,9 +14,9 @@
 
 + (void)load {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSLog(@"%@", [RMObjc font_primary].system);
-        NSLog(@"%@", [RMObjc image_ic]);
-        NSLog(@"%@", [RMObjc file_b_txt]);
+        NSLog(@"%@", [RM_OC font_primary].system);
+        NSLog(@"%@", [RM_OC image_ic]);
+        NSLog(@"%@", [RM_OC file_b_txt]);
     });
 }
 

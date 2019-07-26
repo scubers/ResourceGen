@@ -6,10 +6,10 @@ import UIKit
 public struct RM {
   static var rsControl: ResourceControl = ResourceControl(key: "resource")
   public struct FontSize {
-    /// primary, 16, 正文大小
-    public static var primary: Fontable { return Fontable(rsControl.mFontSize(by: "primary")) }
     /// secondary, 14, 次要大小
     public static var secondary: Fontable { return Fontable(rsControl.mFontSize(by: "secondary")) }
+    /// primary, 16, 正文大小
+    public static var primary: Fontable { return Fontable(rsControl.mFontSize(by: "primary")) }
   }
   public struct Color {
     /// theme, #282828, 主题色

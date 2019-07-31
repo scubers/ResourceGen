@@ -220,6 +220,9 @@ extension BundleResources {
         if let code = getFileCode(type) {
             style.nameSpaces.append(code)
         }
+        if let code = getFilePathCode(type) {
+            style.nameSpaces.append(code)
+        }
         
         return style.getCode(by: 0)
     }
@@ -280,20 +283,38 @@ extension BundleResources {
     
     func getFileCode(_ type: StyleType) -> NameSpace? {
         guard let files = files else { return nil }
-        var imageSpace = NameSpace(imports: [],
+        var fileSpace = NameSpace(imports: [],
                                    modifiers: ["public", "struct"],
                                    name: "File", vars: [], nameSpaces: [])
         files.forEach { (i) in
-            var valueContent: String
+            var dataContent: String
             if type == .static {
-                valueContent = "{ return rsControl.sData(by: \"files/\(i)\") }"
+                dataContent = "{ return rsControl.sData(by: \"files/\(i)\") }"
             } else {
-                valueContent = "{ return rsControl.mData(by: \"files/\(i)\") }"
+                dataContent = "{ return rsControl.mData(by: \"files/\(i)\") }"
             }
-            let imageV = Var(comment: [i], modifiers: ["public", "static", "var"], name: i.style_gen_name, type: "Data?", valueContent: valueContent)
-            imageSpace.vars.append(imageV)
+            let dataV = Var(comment: [i], modifiers: ["public", "static", "var"], name: i.style_gen_name, type: "Data?", valueContent: dataContent)
+            fileSpace.vars.append(dataV)
         }
-        return imageSpace
+        return fileSpace
+    }
+    
+    func getFilePathCode(_ type: StyleType) -> NameSpace? {
+        guard let files = files else { return nil }
+        var space = NameSpace(imports: [],
+                                  modifiers: ["public", "struct"],
+                                  name: "FilePath", vars: [], nameSpaces: [])
+        files.forEach { (i) in
+            var content: String
+            if type == .static {
+                content = "{ return rsControl.sPath(by: \"files/\(i)\") }"
+            } else {
+                content = "{ return rsControl.mPath(by: \"files/\(i)\") }"
+            }
+            let dataV = Var(comment: [i], modifiers: ["public", "static", "var"], name: i.style_gen_name, type: "String?", valueContent: content)
+            space.vars.append(dataV)
+        }
+        return space
     }
     
 }
@@ -314,6 +335,7 @@ extension BundleResources {
         style.vars.append(contentsOf: getOCColor(type))
         style.vars.append(contentsOf: getOCImageCode(type))
         style.vars.append(contentsOf: getOCFileCode(type))
+        style.vars.append(contentsOf: getOCFilePathCode(type))
         
         return style.getCode(by: 0)
     }
@@ -373,6 +395,22 @@ extension BundleResources {
             }
 
             return Var(comment: [i], modifiers: ["@objc", "public", "static", "var"], name: "file_\(i.style_gen_name)", type: "Data?", valueContent: valueContent)
+        }
+    }
+    
+    func getOCFilePathCode(_ type: StyleType) -> [Var] {
+        guard let files = files else { return [] }
+        
+        return
+            files.map { (i) -> Var in
+            var content: String
+            if type == .static {
+                content = "{ return rsControl.sPath(by: \"files/\(i)\") }"
+            } else {
+                content = "{ return rsControl.mPath(by: \"files/\(i)\") }"
+            }
+
+            return Var(comment: [i], modifiers: ["@objc", "public", "static", "var"], name: "file_path_\(i.style_gen_name)", type: "String?", valueContent: content)
         }
     }
 }

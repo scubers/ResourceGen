@@ -39,6 +39,18 @@ public class ResourceControl {
         return ResourceControl.color(hexString: value.value)
     }
     
+    public func mPath(by path: String) -> String? {
+        return self.path(by: path, from: mBundle)
+    }
+    
+    public func sPath(by path: String) -> String? {
+        return self.path(by: path, from: sBundle)
+    }
+    
+    func path(by path: String, from bundle: Bundle) -> String? {
+        return bundle.path(forResource: path, ofType: nil)
+    }
+    
     public func mData(by key: String) -> Data? {
         return data(by: key, from: mBundle)
     }

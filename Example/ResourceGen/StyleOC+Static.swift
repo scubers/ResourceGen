@@ -23,4 +23,12 @@ import UIKit
   @objc public static var file_sub_d_doc: Data? { return rsControl.sData(by: "files/sub/d.doc") }
   /// c.xls
   @objc public static var file_c_xls: Data? { return rsControl.sData(by: "files/c.xls") }
+  /// a.json
+  @objc public static var file_path_a_json: String? { return rsControl.sPath(by: "files/a.json") }
+  /// b.txt
+  @objc public static var file_path_b_txt: String? { return rsControl.sPath(by: "files/b.txt") }
+  /// sub/d.doc
+  @objc public static var file_path_sub_d_doc: String? { return rsControl.sPath(by: "files/sub/d.doc") }
+  /// c.xls
+  @objc public static var file_path_c_xls: String? { return rsControl.sPath(by: "files/c.xls") }
 }

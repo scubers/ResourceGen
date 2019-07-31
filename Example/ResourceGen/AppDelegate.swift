@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(RS.FontSize.primary.system())
         print(RS.Image.sub_unvisible!)
         print(RS.File.a_json!)
+        print(RS.FilePath.sub_d_doc!)
         return true
     }
 

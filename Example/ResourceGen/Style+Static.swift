@@ -31,4 +31,14 @@ public struct RS {
     /// c.xls
     public static var c_xls: Data? { return rsControl.sData(by: "files/c.xls") }
   }
+  public struct FilePath {
+    /// a.json
+    public static var a_json: String? { return rsControl.sPath(by: "files/a.json") }
+    /// b.txt
+    public static var b_txt: String? { return rsControl.sPath(by: "files/b.txt") }
+    /// sub/d.doc
+    public static var sub_d_doc: String? { return rsControl.sPath(by: "files/sub/d.doc") }
+    /// c.xls
+    public static var c_xls: String? { return rsControl.sPath(by: "files/c.xls") }
+  }
 }

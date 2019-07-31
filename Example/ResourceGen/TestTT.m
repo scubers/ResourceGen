@@ -17,6 +17,7 @@
         NSLog(@"%@", [RM_OC font_primary].system);
         NSLog(@"%@", [RM_OC image_ic]);
         NSLog(@"%@", [RM_OC file_b_txt]);
+        NSLog(@"%@", [RM_OC file_path_sub_d_doc]);
     });
 }
 

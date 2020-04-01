@@ -5,10 +5,10 @@ import ResourceGen
 import UIKit
 @objc public class RS_OC: NSObject {
   static var rsControl: ResourceControl = ResourceControl(key: "resource")
-  /// secondary, 14, 次要大小
-  @objc public static var font_secondary: Fontable { return Fontable(14.0) }
   /// primary, 16, 正文大小
   @objc public static var font_primary: Fontable { return Fontable(16.0) }
+  /// secondary, 14, 次要大小
+  @objc public static var font_secondary: Fontable { return Fontable(14.0) }
   /// theme, #282828, 主题色
   @objc public static var color_theme: UIColor { return ResourceControl.color(hexString: "#282828") }
   /// ic
